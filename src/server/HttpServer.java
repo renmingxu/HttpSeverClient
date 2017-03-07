@@ -43,7 +43,7 @@ public class HttpServer {
         this.rootDirectory = config.get("root");
         this.indexFilename = config.get("index");
         this.channelClientMap = new HashMap<>();
-        this.mimeMap = Mime.getMimeMap("mime.types");
+        this.mimeMap = Mime.getMimeMap(config.get("mime"));
         this.logger = Logger.getLogger("HttpServer");
     }
 
@@ -97,13 +97,16 @@ public class HttpServer {
 
     private void listen() {
         while (true) {
+            long start = System.nanoTime();
             int n = 0;
             try {
-                n = this.selector.select(1000);
+                n = this.selector.select(5000);
             } catch (IOException e) {
                 continue;
             }
+            long end = System.nanoTime();
             if (n == 0) {
+                logger.log(Level.INFO,"Client num:" + this.channelClientMap.size());
                 System.gc();
                 continue;
             }

@@ -5,7 +5,12 @@ package server;
  */
 public class Main {
     public static void main(String[] args) {
-        HttpServer httpServer = new HttpServer("config.conf");
+        HttpServer httpServer;
+        if (args.length == 1) {
+            httpServer = new HttpServer(args[0]);
+        } else {
+            httpServer = new HttpServer("config.conf");
+        }
         httpServer.start();
     }
 }

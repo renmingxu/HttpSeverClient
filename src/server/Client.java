@@ -265,7 +265,7 @@ public class Client {
 
     private boolean send(Response response) {
         this.responseToSend = response;
-        byte[] data = this.responseToSend.getContent(10240);
+        byte[] data = this.responseToSend.getContent(1024000);
         if (data != null && data.length != 0) {
             send(data);
             return true;
