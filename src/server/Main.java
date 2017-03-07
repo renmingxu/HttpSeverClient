@@ -5,7 +5,7 @@ package server;
  */
 public class Main {
     public static void main(String[] args) {
-        HttpServer httpServer = new HttpServer(8080, "d:\\html\\");
+        HttpServer httpServer = new HttpServer("config.conf");
         httpServer.start();
     }
 }

@@ -5,12 +5,10 @@ import sun.reflect.annotation.ExceptionProxy;
 import tool.ByteTools;
 
 import java.io.*;
-import java.lang.annotation.Repeatable;
 import java.net.Socket;
-import java.nio.Buffer;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
+import java.net.URLEncoder;
 
 /**
  * Created by renmingxu on 17-3-3.
@@ -37,11 +35,7 @@ public class HttpClient {
     private String charsetName;
     private Socket socket;
     private InputStream socketInputStream;
-    private InputStreamReader inputStreamReader;
-    private BufferedReader bufferedReader;
     private OutputStream socketOutputStream;
-    private OutputStreamWriter outputStreamWriter;
-    private BufferedWriter bufferedWriter;
 
 
 
@@ -119,11 +113,7 @@ public class HttpClient {
         try {
             this.socket = new Socket(this.host, this.port);
             this.socketInputStream = socket.getInputStream();
-            this.inputStreamReader = new InputStreamReader(this.socketInputStream);
-            this.bufferedReader = new BufferedReader(this.inputStreamReader);
             this.socketOutputStream = socket.getOutputStream();
-            this.outputStreamWriter = new OutputStreamWriter(this.socketOutputStream);
-            this.bufferedWriter = new BufferedWriter(this.outputStreamWriter);
         } catch (IOException e) {
             return false;
         }
@@ -300,7 +290,10 @@ public class HttpClient {
         }
         String dataString = "";
         for (Map.Entry<String, String> entry: data.entrySet()){
-            dataString += entry.getKey() + "=" + entry.getValue() + "&";
+            try {
+                dataString += URLEncoder.encode(entry.getKey(),"UTf-8") + "=" + URLEncoder.encode(entry.getValue(),"UTF-8") + "&";
+            } catch (UnsupportedEncodingException e) {
+            }
         }
         String getCmd = "POST " + this.uri + " " + HttpClient.versionString + "\r\n";
         Map<String, String> headers = new HashMap<>(this.headers);

@@ -18,6 +18,7 @@ public class Response {
         this.text = text;
         this.content = content;
     }
+
     public String toString() {
         return "[" + status_code + "]" + " [" + url +"]";
     }
