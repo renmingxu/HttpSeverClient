@@ -1,6 +1,5 @@
 package server;
 
-import client.HttpClient;
 import tool.Mime;
 
 import java.io.File;
@@ -69,7 +68,7 @@ public class HttpServer {
                     if (str.endsWith(";")) {
                         str = str.split(";")[0];
                         String key = str.split(":")[0].trim();
-                        String value = str.split(":")[1].trim();
+                        String value = str.substring(str.split(" ")[0].length()).trim();
                         config.put(key, value);
                     }
                 }

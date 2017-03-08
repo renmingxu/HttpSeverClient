@@ -210,13 +210,12 @@ public class HttpClient {
         }
         if (responseHeaders.containsKey("Content-Length")) {
             int contentLength = Integer.valueOf(responseHeaders.get("Content-Length").trim());
-            System.out.println("intlen:" + contentLength + "strlen" + responseHeaders.get("Content-Length"));
 
             content = this.read(contentLength);
             try {
-                content = text.getBytes(charsetName);
+                text = new String(content, "UTF-8");
             } catch (UnsupportedEncodingException e) {
-                content = null;
+                text = null;
             }
             Response response = new Response(status_code, responseHeaders, this.url, text, content);
             return response;
